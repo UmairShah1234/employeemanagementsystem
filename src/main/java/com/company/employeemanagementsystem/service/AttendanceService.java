@@ -30,16 +30,22 @@ public class AttendanceService {
             return "ALREADY LOGGED IN";
 
         redisTemplate.opsForValue().set(generateKey(employeeId), generateCheckInAndOutTime(), 1, TimeUnit.DAYS);
+        String message = employeeId + "~" + redisTemplate.opsForValue().get(generateKey(employeeId));
+        redisTemplate.convertAndSend("attendance-channel", message);
         return "LOGGED IN";
 
     }
 
     public String logOut(Long id) {
         String value = redisTemplate.opsForValue().get(generateKey(id));
+        if (value == null)
+            return "NOT LOGGED IN";
         if (value.split("~").length > 1)
             return "ALREADY LOGGED OUT";
         value = redisTemplate.opsForValue().get(generateKey(id)) + "~" + generateCheckInAndOutTime();
         redisTemplate.opsForValue().set(generateKey(id), value);
+        String message = id + "~" + redisTemplate.opsForValue().get(generateKey(id));
+        redisTemplate.convertAndSend("attendance-channel", message);
         return "LOGGED OUT";
     }
 
