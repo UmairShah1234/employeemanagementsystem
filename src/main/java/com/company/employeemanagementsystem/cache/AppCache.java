@@ -21,6 +21,7 @@ public class AppCache {
 
     List<Employee> employees = new ArrayList<>();
     List<String> employeeEmailList = new ArrayList<>();
+    List<Long> employeesId = new ArrayList<>();
 
     @PostConstruct
     void initialize() {
@@ -28,13 +29,24 @@ public class AppCache {
         employeeEmailList = employees.stream()
                 .map(employee -> employee.getEmail())
                 .toList();
+        employeesId = employees.stream()
+                .map(employee -> employee.getId())
+                .toList();
     }
 
     public List<String> getAllEmployeesEmail() {
         return this.employeeEmailList;
     }
 
-    public boolean isEmailPresent(String email){
+    public List<Long> getAllEmployeesId() {
+        return this.employeesId;
+    }
+
+    public boolean isEmployeeIdPresent(Long id) {
+        return employeesId.contains(id);
+    }
+
+    public boolean isEmailPresent(String email) {
         return employeeEmailList.contains(email);
     }
 }

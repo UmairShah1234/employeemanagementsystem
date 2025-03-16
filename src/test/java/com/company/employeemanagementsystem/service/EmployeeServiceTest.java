@@ -1,6 +1,6 @@
 package com.company.employeemanagementsystem.service;
 
-import static org.mockito.Mockito.when;
+
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,7 +27,7 @@ public class EmployeeServiceTest {
 
     @BeforeEach
     void setupEmployee() {
-        employee = Employee.builder()
+        this.employee = Employee.builder()
                 .Id(1L)
                 .createdDate(new Date())
                 .department("IT")
